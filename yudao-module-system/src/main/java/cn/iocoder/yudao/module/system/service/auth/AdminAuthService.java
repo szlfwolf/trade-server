@@ -85,4 +85,18 @@ public interface AdminAuthService {
      */
     void resetPassword(AuthResetPasswordReqVO reqVO);
 
+    /**
+     * 邮箱验证码发送
+     *
+     * @param reqVO 发送请求
+     */
+    void sendMailCode(AuthMailSendReqVO reqVO);
+
+    /**
+     * 邮箱登录
+     *
+     * @param reqVO 登录信息
+     * @return 登录结果
+     */
+    AuthLoginRespVO mailLogin(AuthMailLoginReqVO reqVO);
 }

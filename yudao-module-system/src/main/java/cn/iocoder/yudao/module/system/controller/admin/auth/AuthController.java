@@ -171,4 +171,23 @@ public class AuthController {
         return success(authService.socialLogin(reqVO));
     }
 
+
+    // ========== 邮箱登录相关 ==========
+    @PostMapping("/email-login")
+    @PermitAll
+    @Operation(summary = "使用邮箱验证码登录")
+    // 可按需开启限流：https://github.com/YunaiV/ruoyi-vue-pro/issues/851
+    // @RateLimiter(time = 60, count = 6, keyResolver = ExpressionRateLimiterKeyResolver.class, keyArg = "#reqVO.mobile")
+    public CommonResult<AuthLoginRespVO> emailLogin(@RequestBody @Valid AuthMailLoginReqVO reqVO) {
+        return success(authService.mailLogin(reqVO));
+    }
+
+    @PostMapping("/send-email-code")
+    @PermitAll
+    @Operation(summary = "发送邮箱验证码")
+    public CommonResult<Boolean> sendLoginEmailCode(@RequestBody @Valid AuthMailSendReqVO reqVO) {
+        authService.sendMailCode(reqVO);
+        return success(true);
+    }
+
 }

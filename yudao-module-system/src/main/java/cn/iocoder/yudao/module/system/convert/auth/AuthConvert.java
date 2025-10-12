@@ -2,6 +2,8 @@ package cn.iocoder.yudao.module.system.convert.auth;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
+import cn.iocoder.yudao.module.system.api.mail.dto.code.MailCodeSendReqDTO;
+import cn.iocoder.yudao.module.system.api.mail.dto.code.MailCodeUseReqDTO;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialUserBindReqDTO;
@@ -84,5 +86,9 @@ public interface AuthConvert {
     SmsCodeSendReqDTO convert(AuthSmsSendReqVO reqVO);
 
     SmsCodeUseReqDTO convert(AuthSmsLoginReqVO reqVO, Integer scene, String usedIp);
+
+    MailCodeSendReqDTO convert(AuthMailSendReqVO reqVO);
+
+    MailCodeUseReqDTO convert(AuthMailLoginReqVO reqVO, Integer scene, String usedIp);
 
 }

@@ -8,6 +8,7 @@ import cn.iocoder.yudao.framework.common.util.servlet.ServletUtils;
 import cn.iocoder.yudao.framework.common.util.validation.ValidationUtils;
 import cn.iocoder.yudao.framework.datapermission.core.annotation.DataPermission;
 import cn.iocoder.yudao.module.system.api.logger.dto.LoginLogCreateReqDTO;
+import cn.iocoder.yudao.module.system.api.mail.MailCodeApi;
 import cn.iocoder.yudao.module.system.api.sms.SmsCodeApi;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialUserBindReqDTO;
@@ -68,6 +69,8 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private CaptchaService captchaService;
     @Resource
     private SmsCodeApi smsCodeApi;
+    @Resource
+    private MailCodeApi mailCodeApi;
 
     /**
      * 验证码的开关，默认为 true
@@ -301,5 +304,20 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         );
 
         userService.updateUserPassword(userByMobile.getId(), reqVO.getPassword());
+    }
+
+    @Override
+    public void sendMailCode(AuthMailSendReqVO reqVO) {
+        // 登录场景，验证是否存在
+        if (userService.getUserByMobile(reqVO.getMail()) == null) {
+            throw exception(AUTH_MOBILE_NOT_EXISTS);
+        }
+        // 发送验证码
+        mailCodeApi.sendMailCode(AuthConvert.INSTANCE.convert(reqVO).setCreateIp(getClientIP()));
+    }
+
+    @Override
+    public AuthLoginRespVO mailLogin(AuthMailLoginReqVO reqVO) {
+        return null;
     }
 }
